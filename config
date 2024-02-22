@@ -1,8 +1,27 @@
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+
+
+
+
+# THIS is your MOD key, defined as a variable to be used in almost every keyboard shortcut controlling windows.
+# By default, it is set as "Mod4" which is the "Super" key (AKA "Windows" key)
+
+set $mod Mod4
+
+
+# HERE is where you may set your default terminal. 
+# This will open when you use your terminal summon keybind.
+# If you do not wish to use konsole, replace it with whatever you prefer.
+
+set $term konsole
+
 # HERE is where you can set your workspace configuration.
 
-# Set monitor configuration.
+# First, set monitor configuration.
 # These variables will be used later in determining which monitor you want your workspaces to display on.
-# Use the "xrandr" command to output a list of display outputs and determine which is which in order to properly configure this.
+# The simplest way to find the names of your displays is to use the  "xrandr" command. 
+# This will output a list of your display outputs, allowing you to find which display is which and define them based on this.
+
 
 set $monitor1 DP-4
 set $monitor2 HDMI-0
@@ -23,66 +42,59 @@ workspace 9 output $monitor2
 workspace 10 output $monitor2
 
 
-# i3 config file (v4)
-#
-# Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+# HERE are the settings for i3bar (the taskbar)
+# Default setting is "hide". Set to "dock" to have the bar always visible and "invisible" to make it always invisible.
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-font pango:monospace 0
+bar {
+        status_command i3status
+        mode hide
+        #mode dock
+        #mode invisible
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+        font pango:monospace 10
 
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
+        tray_output primary
+}
 
 
 
-default_border pixel 1
-default_floating_border pixel 1
+# HERE is where you can set touchpad configuration, this is important for laptop users who wish to enable tap to click and change their scrolling direction.
+# Refer to the i3 or sway documentation for more information on how to edit this.
+
+input type:touchpad {
+        tap enabled
+        natural_scroll enabled
+}
 
 
+#Lock screen
+bindsym $mod+shift+1 exec i3lock
 
 
-#Keyboard layouts
-
+# HERE you can set your keyboard layouts
+# Add new layouts separated by commas in front of "-layout"
+# You may also modify the shortcut used to cycle between these, found after "-option grp:"
 exec_always "setxkbmap -model pc104 -layout us,es,fi -variant ,, -option grp:alt_shift_toggle"
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 
 
 
-#Lock i3wm
-bindsym $mod+shift+l exec i3lock
+
+
+# Following are all of the keybindings.
+
+
+
+#These are keybindings for scripts. If you want to add keybindings for your own scripts, you can use this as a template. 
 
 #Toggle headphones
-bindsym $mod+shift+7 exec /home/user/Documents/scripts/toggleheadset
-
+#bindsym $mod+shift+7 exec /home/user/Documents/scripts/toggleheadset
 #Rotating display hotkeys
-bindsym $mod+shift+4 exec /home/user/Documents/scripts/verticalmonitor
-bindsym $mod+shift+6 exec /home/user/Documents/scripts/horizontalmonitor
+#bindsym $mod+shift+4 exec /home/user/Documents/scripts/verticalmonitor
+#bindsym $mod+shift+6 exec /home/user/Documents/scripts/horizontalmonitor
 
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -92,7 +104,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+g kill
@@ -229,15 +241,56 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        status_command i3status
-        mode hide
-        #mode dock
-        #mode invisible
 
-        font pango:monospace 10
 
-        tray_output primary
-}
+
+
+
+
+
+
+
+
+# i3 config file (v4)
+#
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace 0
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+
+
+default_border pixel 1
+default_floating_border pixel 1
+
+
+
+
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
