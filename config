@@ -11,9 +11,12 @@ set $mod Mod4
 
 # HERE is where you may set your default terminal. 
 # This will open when you use your terminal summon keybind.
-# If you do not wish to use konsole, replace it with whatever you prefer.
+# If you do not wish to use alacritty, replace it with whatever you prefer.
 
-set $term konsole
+set $term alacritty
+
+#HERE is where you may choose your notification manager. By default it is dunst.
+set $notificationmanager dunst
 
 # HERE is where you can set your workspace configuration.
 
@@ -69,13 +72,15 @@ input type:touchpad {
 
 
 #Lock screen
-bindsym $mod+shift+1 exec i3lock
+bindsym $mod+1 exec i3lock
+#Lock screen and go to sleep
+bindsym $mod+shift+l exec i3lock && systemctl suspend
 
 
 # HERE you can set your keyboard layouts
 # Add new layouts separated by commas in front of "-layout"
 # You may also modify the shortcut used to cycle between these, found after "-option grp:"
-exec_always "setxkbmap -model pc104 -layout us,es,fi -variant ,, -option grp:alt_shift_toggle"
+exec_always "setxkbmap -model pc104 -layout us,es,de -variant ,, -option grp:alt_shift_toggle"
 
 
 
@@ -95,9 +100,6 @@ exec_always "setxkbmap -model pc104 -layout us,es,fi -variant ,, -option grp:alt
 #bindsym $mod+shift+4 exec /home/user/Documents/scripts/verticalmonitor
 #bindsym $mod+shift+6 exec /home/user/Documents/scripts/horizontalmonitor
 
-
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
@@ -251,11 +253,15 @@ bindsym $mod+r mode "resize"
 
 
 
-# i3 config file (v4)
-#
+#Start notification manager
+
+exec $notificationmanager
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
+#Set this higher than 0 to reenable window titles.
+
 font pango:monospace 0
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -267,7 +273,8 @@ font pango:monospace 0
 exec --no-startup-id dex --autostart --environment i3
 
 
-
+#Sets the default border width.
+#Adjust this if you feel you can't see the default size of 1 pixel.
 default_border pixel 1
 default_floating_border pixel 1
 
@@ -294,3 +301,13 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Media player controls. Feel free to rebind these if you don't have dedicated keys.
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
