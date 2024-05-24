@@ -56,7 +56,8 @@ bar {
         #mode dock
         #mode invisible
 
-        font pango:monospace 10
+        position top
+        font pango:monospace 14
 
         tray_output primary
 }
@@ -91,15 +92,15 @@ bindsym $mod+shift+3 exec xrandr --output $monitor1 --brightness 1
 
 # Following are all of the keybindings.
 
-
+#Rotating display hotkeys
+bindsym $mod+shift+4 exec xrandr --output $monitor1 --primary --right-of HDMI-0 --rotate left
+bindsym $mod+shift+6 exec xrandr --output $monitor1 --primary --right-of HDMI-0 --rotate normal
 
 #These are keybindings for scripts. If you want to add keybindings for your own scripts, you can use this as a template. 
 
 #Toggle headphones
 #bindsym $mod+shift+7 exec /home/user/Documents/scripts/toggleheadset
-#Rotating display hotkeys
-#bindsym $mod+shift+4 exec /home/user/Documents/scripts/verticalmonitor
-#bindsym $mod+shift+6 exec /home/user/Documents/scripts/horizontalmonitor
+
 
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
