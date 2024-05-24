@@ -26,7 +26,7 @@ set $notificationmanager dunst
 # This will output a list of your display outputs, allowing you to find which display is which and define them based on this.
 
 
-set $monitor1 DP-4
+set $monitor1 DP-2
 set $monitor2 HDMI-0
 #set $monitor3 
 
